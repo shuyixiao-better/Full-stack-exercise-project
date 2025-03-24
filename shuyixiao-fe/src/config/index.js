@@ -1,7 +1,7 @@
 const env = import.meta.env.MODE || 'development';
 const envConfig = {
     dev: {
-        baseApi: "",
+        baseApi: "/api",
         mockApi: "",
     },
     test: {
@@ -18,5 +18,6 @@ const envConfig = {
 export default {
     env,
     mock: true,
+    nameSpace: "manager",
     ...envConfig[env]
 }
