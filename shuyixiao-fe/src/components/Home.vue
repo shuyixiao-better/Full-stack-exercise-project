@@ -1,12 +1,18 @@
 <template>
-  <h1>欢迎来到vue3+vite 世界</h1>
-  <el-button>
-    <router-link to="detail">去详情页</router-link>
-  </el-button>
-  <el-button>
-    <router-link to="welcome">去主页</router-link>
-  </el-button>
-  <router-view></router-view>
+  <div class="container">
+    <div class="side"></div>
+    <div class="content-right">
+      <div class="nav-top">
+        <div class="menu">舒一笑的菜单</div>
+        <div class="userName">舒一笑的admin</div>
+      </div>
+      <div class="wrapper">
+        <div class="main-page">
+          <router-view></router-view>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script lang='ts' setup>
@@ -14,4 +20,40 @@
 </script>
 
 <style scoped>
+  .container{
+    position: relative;
+  }
+
+  .side{
+    position: fixed;
+    width: 250px;
+    height: 100%;
+    color: white;
+    background-color: #001529;
+  }
+
+  .content-right{
+    margin-left: 250px;
+  }
+
+  .nav-top{
+    height: 66px;
+    line-height: 66px;
+    display: flex;
+    justify-content: space-between; /* 两端对齐*/
+    padding: 0 20px;
+  }
+
+  .wrapper{
+    background-color: #eef0f3;
+    height: calc(100vh - 66px);
+    padding: 20px;
+  }
+
+  .main-page{
+    background-color: white;
+    height: 100%;
+    padding: 20px;
+  }
+
 </style>
