@@ -34,7 +34,7 @@ function request(options) {
         options.params = options.data;
     }
 
-    if (config.env == "prod"){
+    if (config.env === "prod"){
         instance.defaults.baseURL = config.baseApi;
     }else {
         instance.defaults.baseURL = config.mock ? config.mockApi : config.baseApi;

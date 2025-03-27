@@ -22,7 +22,7 @@
           ></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" class="login-btn" @click="login">登录</el-button>
+          <el-button type="primary" class="login-btn" @click="submitForm">登录</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -31,6 +31,8 @@
 
 <script setup>
 import {ref,reactive} from "vue";
+import { login } from '../api'
+import router from "../router/index.js";
 const ruleForm = reactive({
   userName:"",
   passWord:""
@@ -60,12 +62,14 @@ const rules = reactive({
 //     }
 //   });
 // }
-const login = () => {
-  // 直接使用 formRef 的值
-  if (!formRef.value) return; // 检查 formRef 是否已经正确绑定
+const submitForm = () => {
+  if (!formRef.value) return;
   formRef.value.validate((valid) => {
     if (valid) {
-      console.log("11111111111111");
+      login(ruleForm).then(res => {
+        router.push("/welcome")
+
+      })
     } else {
       console.log("22222222222222");
       return false;
