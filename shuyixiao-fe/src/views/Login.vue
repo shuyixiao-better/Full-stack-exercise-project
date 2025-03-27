@@ -9,7 +9,7 @@
         <div class="title">舒一笑系统</div>
         <el-form-item prop="userName">
           <el-input type="text"
-                    placeholder="用户名"
+                    placeholder="用户名名称"
                     prefix-icon="User"
                     v-model="ruleForm.userName"
           ></el-input>
@@ -22,7 +22,7 @@
           ></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" class="login-btn" @click="submitForm">登录</el-button>
+          <el-button type="primary" class="login-btn" @click="submitForm(formRef)">登录</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -51,7 +51,7 @@ const rules = reactive({
   ]
 })
 
-// const login = (formRef) => {
+// const login1 = (formRef) => {
 //   if (!formRef) return;
 //   formRef.validate((valid) => {
 //     if (valid) {
@@ -62,10 +62,12 @@ const rules = reactive({
 //     }
 //   });
 // }
-const submitForm = () => {
-  if (!formRef.value) return;
-  formRef.value.validate((valid) => {
+const submitForm = (formRef) => {
+  console.log(formRef)
+  formRef.validate((valid) => {
+    console.log("444444");
     if (valid) {
+      console.log("333333333");
       login(ruleForm).then(res => {
         router.push("/welcome")
 

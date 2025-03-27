@@ -1,6 +1,6 @@
 const env = import.meta.env.MODE || 'development';
 const envConfig = {
-    dev: {
+    development: {
         baseApi: "/api",
         mockApi: "",
     },
