@@ -1,16 +1,28 @@
 <template>
   <div class="login-wrapper">
     <div class="modal-content">
-      <el-form>
+      <el-form
+          ref="formRef"
+          :model="ruleForm"
+          :rules="rules"
+      >
         <div class="title">舒一笑系统</div>
-        <el-form-item>
-          <el-input type="text" placeholder="用户名称" prefix-icon="User"></el-input>
+        <el-form-item prop="userName">
+          <el-input type="text"
+                    placeholder="用户名"
+                    prefix-icon="User"
+                    v-model="ruleForm.userName"
+          ></el-input>
+        </el-form-item>
+        <el-form-item prop="passWord">
+          <el-input type="password"
+                    placeholder="用户密码"
+                    prefix-icon="View"
+                    v-model="ruleForm.passWord"
+          ></el-input>
         </el-form-item>
         <el-form-item>
-          <el-input type="password" placeholder="用户密码" prefix-icon="View"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" class="login-btn">登录按钮</el-button>
+          <el-button type="primary" class="login-btn" @click="login">登录</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -18,7 +30,48 @@
 </template>
 
 <script setup>
+import {ref,reactive} from "vue";
+const ruleForm = reactive({
+  userName:"",
+  passWord:""
+})
+// 获取原生表单句柄
+const formRef = ref(null);
+const rules = reactive({
+  userName: [
+    { required: true, message: '请输入用户名', trigger: 'blur' },
+    { min: 3, max: 6, message: '长度在 3 到 6 个字符', trigger: 'blur' }
+  ],
+  passWord: [
+    { required: true, message: '请输入密码', trigger: 'blur' },
+    { min: 3, max: 12, message: '长度在 3 到 12 个字符', trigger: 'blur' }
 
+  ]
+})
+
+// const login = (formRef) => {
+//   if (!formRef) return;
+//   formRef.validate((valid) => {
+//     if (valid) {
+//       console.log("11111111111111");
+//     } else {
+//       console.log("22222222222222");
+//       return false;
+//     }
+//   });
+// }
+const login = () => {
+  // 直接使用 formRef 的值
+  if (!formRef.value) return; // 检查 formRef 是否已经正确绑定
+  formRef.value.validate((valid) => {
+    if (valid) {
+      console.log("11111111111111");
+    } else {
+      console.log("22222222222222");
+      return false;
+    }
+  });
+};
 </script>
 
 
