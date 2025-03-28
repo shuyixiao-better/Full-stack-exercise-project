@@ -33,12 +33,15 @@
 import {ref,reactive} from "vue";
 import { login } from '../api'
 import router from "../router/index.js";
+import { useStore } from "vuex";
+
 const ruleForm = reactive({
   userName:"",
   passWord:""
 })
 // 获取原生表单句柄
 const formRef = ref(null);
+const store = useStore();
 const rules = reactive({
   userName: [
     { required: true, message: '请输入用户名', trigger: 'blur' },
@@ -51,29 +54,15 @@ const rules = reactive({
   ]
 })
 
-// const login1 = (formRef) => {
-//   if (!formRef) return;
-//   formRef.validate((valid) => {
-//     if (valid) {
-//       console.log("11111111111111");
-//     } else {
-//       console.log("22222222222222");
-//       return false;
-//     }
-//   });
-// }
 const submitForm = (formRef) => {
   console.log(formRef)
   formRef.validate((valid) => {
-    console.log("444444");
     if (valid) {
-      console.log("333333333");
       login(ruleForm).then(res => {
+        store.commit("setUserInfo",res.data)
         router.push("/welcome")
-
       })
     } else {
-      console.log("22222222222222");
       return false;
     }
   });
