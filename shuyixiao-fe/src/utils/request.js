@@ -14,16 +14,19 @@ const instance = axios.create({
 //请求拦截
 instance.interceptors.request.use(function (config) {
     // 在发送请求之前做些什么
+    /*
     const headers = config.headers;
     if(storage.getItem('userInfo')){
         const {token} = storage.getItem('userInfo').data || {token:""};
         if (!headers.Authorization) headers.Authorization = "Bearer " + token; //jwt token
     }
+     */
     return config;
 });
 
 //响应拦截
 instance.interceptors.response.use(function (response) {
+    console.log(response)
     const { code, msg } = response.data; //状态码  接口  HTTP
     if (code === 200) {
         response.data;
@@ -34,6 +37,7 @@ instance.interceptors.response.use(function (response) {
         }, 3000);
         return Promise.reject(msg);
     } else {
+        console.log(33333)
         ElMessage.error(msg || NETWORK_ERROR);
     }
     return response;
@@ -53,7 +57,10 @@ function request(options) {
     if (config.env === "prod") {
         instance.defaults.baseURL = config.baseApi;
     } else {
+        console.log(isMock)
+        console.log(config.mockApi)
         instance.defaults.baseURL = isMock ? config.mockApi : config.baseApi;
+
     }
     return instance(options);
 }
