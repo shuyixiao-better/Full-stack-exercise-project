@@ -29,7 +29,7 @@
     width: 250px;
     height: 100%;
     color: white;
-    background-color: #001529;
+    background-color: #8b7b7b;
   }
 
   .content-right{
@@ -42,6 +42,13 @@
     display: flex;
     justify-content: space-between; /* 两端对齐*/
     padding: 0 20px;
+  }
+  .menu{
+    color: #f5f5f5;
+  }
+
+  .userName{
+    color: #f5f5f5;
   }
 
   .wrapper{
