@@ -14,13 +14,11 @@ const instance = axios.create({
 //请求拦截
 instance.interceptors.request.use(function (config) {
     // 在发送请求之前做些什么
-    /*
     const headers = config.headers;
     if(storage.getItem('userInfo')){
         const {token} = storage.getItem('userInfo').data || {token:""};
         if (!headers.Authorization) headers.Authorization = "Bearer " + token; //jwt token
     }
-     */
     return config;
 });
 

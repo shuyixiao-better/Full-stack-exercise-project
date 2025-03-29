@@ -59,7 +59,7 @@ const submitForm = (formRef) => {
   formRef.validate((valid) => {
     if (valid) {
       login(ruleForm).then(res => {
-        //store.commit("setUserInfo",res.data)
+        store.commit("setUserInfo",res.data)
         router.push("/welcome")
       })
     } else {
