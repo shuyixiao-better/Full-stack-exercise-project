@@ -3,8 +3,24 @@
     <div class="side"></div>
     <div class="content-right">
       <div class="nav-top">
-        <div class="menu">舒一笑的菜单</div>
-        <div class="userName">舒一笑的admin</div>
+        <div class="menu">
+          <el-icon><Fold /></el-icon>
+          <span>舒一笑的菜单</span>
+        </div>
+        <div class="userInformation">
+          <el-badge is-dot class="notice"><el-icon><Comment /></el-icon></el-badge>
+          <el-dropdown>
+          <span class="el-dropdown-link">
+          {{ user.name }}
+          </span>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item>邮箱：{{ user.email }}</el-dropdown-item>
+                <el-dropdown-item>退出</el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+        </div>
       </div>
       <div class="wrapper">
         <div class="main-page">
@@ -16,7 +32,11 @@
 </template>
 
 <script lang='ts' setup>
-
+import {ref} from "vue";
+const user = ref({
+  name: '舒一笑',
+  email: 'yixiaoshu88@163.com'
+})
 </script>
 
 <style scoped>
@@ -44,11 +64,36 @@
     padding: 0 20px;
   }
   .menu{
+    display: flex;
+    align-items: center;
+    color: #f5f5f5;
+  }
+  .userInformation{
+    display: flex;
+    align-items: center;
     color: #f5f5f5;
   }
 
-  .userName{
+  .menu span{
+    margin-left: 10px;
+    font-size: 18px;
+  }
+  .el-dropdown-link{
+    font-size: 18px;
     color: #f5f5f5;
+  }
+
+  .userInformation{
+    color: #f5f5f5;
+    font-size: 18px;
+  }
+  .userInformation .notice{
+    margin-right: 13px;
+    align-items: center;
+  }
+
+  .userInformation .notice{
+    line-height: 18px;
   }
 
   .wrapper{
