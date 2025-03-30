@@ -1,9 +1,9 @@
 <template>
   <div class="container">
-    <div class="side">
+    <div :class="['side' , isCollapse ? 'collapse' : 'expand']">
       <div class="logo">
         <img src="https://shuyixiao.oss-cn-hangzhou.aliyuncs.com/%E4%B8%80%E7%AC%91%E5%8D%9A%E5%AE%A2logo/%E5%BE%AE%E7%AC%91.png"/>
-        <span>manager</span>
+        <span v-if="!isCollapse">manager</span>
       </div>
       <!--导航菜单-->
       <el-menu
@@ -39,9 +39,9 @@
       </el-menu>
 
     </div>
-    <div class="content-right">
+    <div :class="['content-right' , isCollapse ? 'collapse' : 'expand']">
       <div class="nav-top">
-        <div class="menu">
+        <div class="menu" @click="isCollapse = !isCollapse">
           <el-icon><Fold /></el-icon>
           <span>舒一笑的菜单</span>
         </div>
@@ -76,6 +76,8 @@ import {useStore} from "vuex"
 
 const store = useStore();
 const router = useRouter();
+
+const isCollapse = ref(false)
 const user = ref({
   name: '舒一笑',
   email: 'yixiaoshu88@163.com'
@@ -107,9 +109,26 @@ function handleQuit(command) {
     height: 100%;
     color: white;
     background-color: #8b7b7b;
+    transition: width .5s;
+  }
+
+  .side.collapse{
+    width: 70px;
+  }
+
+  .side.expand{
+    width: 250px;
   }
 
   .content-right{
+    margin-left: 250px;
+  }
+
+  .content-right.collapse{
+    margin-left: 70px;
+  }
+
+  .content-right.expand{
     margin-left: 250px;
   }
 
@@ -166,6 +185,7 @@ function handleQuit(command) {
   }
 
   .logo{
+    display: flex;
     margin-top: 10px;
     padding-bottom: 28px;
   }
@@ -176,6 +196,7 @@ function handleQuit(command) {
   .logo span{
     font-size: 20px;
     padding-left: 20px;
+    line-height: 65px;
   }
 
 </style>
