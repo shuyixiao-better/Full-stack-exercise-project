@@ -1,6 +1,44 @@
 <template>
   <div class="container">
-    <div class="side"></div>
+    <div class="side">
+      <div class="logo">
+        <img src="https://shuyixiao.oss-cn-hangzhou.aliyuncs.com/%E4%B8%80%E7%AC%91%E5%8D%9A%E5%AE%A2logo/%E5%BE%AE%E7%AC%91.png"/>
+        <span>manager</span>
+      </div>
+      <!--导航菜单-->
+      <el-menu
+          default-active="2"
+          class="el-menu-vertical"
+          :collapse="isCollapse"
+          background-color="#8b7b7b"
+          text-color="#fff"
+          router
+      >
+        <el-sub-menu index="1">
+          <template #title>
+            <el-icon><el-icon><Tools /></el-icon></el-icon>
+            <span>系统管理</span>
+          </template>
+          <el-menu-item-group>
+            <el-menu-item index="1-1">用户管理</el-menu-item>
+            <el-menu-item index="1-2">菜单管理</el-menu-item>
+            <el-menu-item index="1-3">角色管理</el-menu-item>
+            <el-menu-item index="1-4">部门管理</el-menu-item>
+          </el-menu-item-group>
+        </el-sub-menu>
+        <el-sub-menu index="2">
+          <template #title>
+            <el-icon><el-icon><Promotion /></el-icon></el-icon>
+            <span>审批管理</span>
+          </template>
+          <el-menu-item-group>
+            <el-menu-item index="2-1">休假管理</el-menu-item>
+            <el-menu-item index="2-2">待我审批</el-menu-item>
+          </el-menu-item-group>
+        </el-sub-menu>
+      </el-menu>
+
+    </div>
     <div class="content-right">
       <div class="nav-top">
         <div class="menu">
@@ -9,14 +47,14 @@
         </div>
         <div class="userInformation">
           <el-badge is-dot class="notice"><el-icon><Comment /></el-icon></el-badge>
-          <el-dropdown>
+          <el-dropdown @command="handleQuit">
           <span class="el-dropdown-link">
           {{ user.name }}
           </span>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item>邮箱：{{ user.email }}</el-dropdown-item>
-                <el-dropdown-item>退出</el-dropdown-item>
+                <el-dropdown-item command="email">邮箱：{{ user.email }}</el-dropdown-item>
+                <el-dropdown-item command="logout">退出</el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>
@@ -33,13 +71,32 @@
 
 <script lang='ts' setup>
 import {ref} from "vue";
+import {useRouter} from "vue-router"
+import {useStore} from "vuex"
+
+const store = useStore();
+const router = useRouter();
 const user = ref({
   name: '舒一笑',
   email: 'yixiaoshu88@163.com'
 })
+
+function handleQuit(command) {
+  if (command === 'logout') {
+    store.commit("saveUserInfo","")
+    router.push('/login')
+  }
+}
 </script>
 
 <style scoped>
+
+  .el-menu{
+    border-right: none;
+  }
+  .el-menu-vertical{
+    height: calc(100vh - 98px);
+  }
   .container{
     position: relative;
   }
@@ -106,6 +163,19 @@ const user = ref({
     background-color: white;
     height: 100%;
     padding: 20px;
+  }
+
+  .logo{
+    margin-top: 10px;
+    padding-bottom: 28px;
+  }
+  .logo img{
+    width: 60px;
+    height: 60px;
+  }
+  .logo span{
+    font-size: 20px;
+    padding-left: 20px;
   }
 
 </style>

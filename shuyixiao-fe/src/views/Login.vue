@@ -32,7 +32,7 @@
 <script setup>
 import {ref,reactive} from "vue";
 import { login } from '../api'
-import router from "../router/index.js";
+import {useRouter} from "vue-router"
 import { useStore } from "vuex";
 
 const ruleForm = reactive({
@@ -42,6 +42,7 @@ const ruleForm = reactive({
 // 获取原生表单句柄
 const formRef = ref(null);
 const store = useStore();
+const router = useRouter();
 const rules = reactive({
   userName: [
     { required: true, message: '请输入用户名', trigger: 'blur' },
@@ -59,7 +60,7 @@ const submitForm = (formRef) => {
   formRef.validate((valid) => {
     if (valid) {
       login(ruleForm).then(res => {
-        store.commit("setUserInfo",res.data)
+        store.commit("saveUserInfo",res.data)
         router.push("/welcome")
       })
     } else {
