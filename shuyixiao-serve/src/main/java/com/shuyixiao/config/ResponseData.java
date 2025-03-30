@@ -1,6 +1,11 @@
 package shuyixiao.config;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import lombok.Data;
+import shuyixiao.data.Menu;
 import shuyixiao.data.UserData;
+
+import java.util.List;
 
 /**
  * Copyright © 2025年 integration-projects-maven. All rights reserved.
@@ -10,23 +15,16 @@ import shuyixiao.data.UserData;
  * Description TODO
  * createTime 2025年03月29日 10:02:00
  */
+@Data
 public class ResponseData {
+
     private int code;
+
+    private List<Menu> menuList;
+
     private UserData data;
 
-    public int getCode() {
-        return code;
-    }
+    private Integer count;
 
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public UserData getData() {
-        return data;
-    }
-
-    public void setData(UserData data) {
-        this.data = data;
-    }
+    private String msg;
 }

@@ -43,12 +43,12 @@ instance.interceptors.response.use(function (response) {
 
 function request(options) {
     options.method = options.method || "get";
-    if (options.method.toLowerCase() == "get") {
+    if (options.method.toLowerCase() === "get") {
         options.params = options.data;
     }
 
     let isMock = config.mock;    //全局的配置
-    if(toString.call(options.mock) != '[object Undefined]'){  //用户配置
+    if(toString.call(options.mock) !== '[object Undefined]'){  //用户配置
         isMock = options.mock;
     }
 
@@ -66,7 +66,7 @@ function request(options) {
 ["get", "post", "put", "delete"].forEach((item) => {
     request[item] = (url, data, mock) => {
         //参数重载
-        if(data == undefined){
+        if(data === undefined){
             data = {};
         }
 

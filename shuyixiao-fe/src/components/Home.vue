@@ -14,30 +14,8 @@
           text-color="#fff"
           router
       >
-        <el-sub-menu index="1">
-          <template #title>
-            <el-icon><el-icon><Tools /></el-icon></el-icon>
-            <span>系统管理</span>
-          </template>
-          <el-menu-item-group>
-            <el-menu-item index="1-1">用户管理</el-menu-item>
-            <el-menu-item index="1-2">菜单管理</el-menu-item>
-            <el-menu-item index="1-3">角色管理</el-menu-item>
-            <el-menu-item index="1-4">部门管理</el-menu-item>
-          </el-menu-item-group>
-        </el-sub-menu>
-        <el-sub-menu index="2">
-          <template #title>
-            <el-icon><el-icon><Promotion /></el-icon></el-icon>
-            <span>审批管理</span>
-          </template>
-          <el-menu-item-group>
-            <el-menu-item index="2-1">休假管理</el-menu-item>
-            <el-menu-item index="2-2">待我审批</el-menu-item>
-          </el-menu-item-group>
-        </el-sub-menu>
+      <tree-menu :userMenuList="userMenuList"></tree-menu>
       </el-menu>
-
     </div>
     <div :class="['content-right' , isCollapse ? 'collapse' : 'expand']">
       <div class="nav-top">
@@ -46,14 +24,14 @@
           <span>舒一笑的菜单</span>
         </div>
         <div class="userInformation">
-          <el-badge is-dot class="notice"><el-icon><Comment /></el-icon></el-badge>
+          <el-badge :is-dot="notifyCount > 0" class="notice"><el-icon><Comment /></el-icon></el-badge>
           <el-dropdown @command="handleQuit">
           <span class="el-dropdown-link">
-          {{ user.name }}
+          {{ user.userName }}
           </span>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item command="email">邮箱：{{ user.email }}</el-dropdown-item>
+                <el-dropdown-item command="email">邮箱：{{ user.userEmail }}</el-dropdown-item>
                 <el-dropdown-item command="logout">退出</el-dropdown-item>
               </el-dropdown-menu>
             </template>
@@ -70,18 +48,17 @@
 </template>
 
 <script lang='ts' setup>
-import {ref} from "vue";
+import {ref,computed,reactive} from "vue";
 import {useRouter} from "vue-router"
 import {useStore} from "vuex"
-
+import {notify,menuList} from "../api"
+import TreeMenu from "./TreeMenu.vue"
 const store = useStore();
 const router = useRouter();
-
-const isCollapse = ref(false)
-const user = ref({
-  name: '舒一笑',
-  email: 'yixiaoshu88@163.com'
-})
+const notifyCount = ref(0);
+const isCollapse = ref(false);
+const userMenuList = reactive([]);
+const user = computed(() => store.state.userInfo.data)
 
 function handleQuit(command) {
   if (command === 'logout') {
@@ -89,15 +66,26 @@ function handleQuit(command) {
     router.push('/login')
   }
 }
+
+async function getNotifyCount() {
+ await notify().then(res => {
+    notifyCount.value = res.data.count
+  })
+}
+getNotifyCount()
+
+async function getMenuList() {
+  const res = await menuList();
+  userMenuList.push(...res.data.menuList)
+}
+getMenuList()
 </script>
 
 <style scoped>
 
-  .el-menu{
-    border-right: none;
-  }
   .el-menu-vertical{
     height: calc(100vh - 98px);
+    border-right: none;
   }
   .container{
     position: relative;
@@ -187,12 +175,15 @@ function handleQuit(command) {
   .logo{
     display: flex;
     margin-top: 10px;
+    margin-left: 6px;
     padding-bottom: 28px;
   }
+
   .logo img{
     width: 60px;
     height: 60px;
   }
+
   .logo span{
     font-size: 20px;
     padding-left: 20px;
