@@ -19,9 +19,11 @@
     </div>
     <div :class="['content-right' , isCollapse ? 'collapse' : 'expand']">
       <div class="nav-top">
-        <div class="menu" @click="isCollapse = !isCollapse">
-          <el-icon><Fold /></el-icon>
-          <span>舒一笑的菜单</span>
+        <div class="menu">
+          <el-icon @click="isCollapse = !isCollapse"><Fold /></el-icon>
+          <span>
+            <BreadCrumb ></BreadCrumb>
+          </span>
         </div>
         <div class="userInformation">
           <el-badge :is-dot="notifyCount > 0" class="notice"><el-icon><Comment /></el-icon></el-badge>
@@ -53,6 +55,7 @@ import {useRouter} from "vue-router"
 import {useStore} from "vuex"
 import {notify,menuList} from "../api"
 import TreeMenu from "./TreeMenu.vue"
+import BreadCrumb from "./BreadCrumb.vue"
 const store = useStore();
 const router = useRouter();
 const notifyCount = ref(0);
