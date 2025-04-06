@@ -33,8 +33,8 @@ public class TestAndPlayController {
         // 创建返回的数据对象
         ResponseData responseData = new ResponseData();
         responseData.setCode(200);
-        UserData userData = new UserData();
-        userData.setToken(accessToken);
+        TokenResponse userData = new TokenResponse();
+        userData.setAccessToken(accessToken);
         userData.setRefreshToken(refreshToken);
         responseData.setData(userData);
         return responseData;

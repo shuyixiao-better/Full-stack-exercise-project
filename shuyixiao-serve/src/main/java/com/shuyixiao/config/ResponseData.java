@@ -22,7 +22,9 @@ public class ResponseData {
 
     private List<Menu> menuList;
 
-    private UserData data;
+//    private UserData data;
+
+    private TokenResponse data;
 
     private Integer count;
 

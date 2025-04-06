@@ -13,7 +13,9 @@ public class JwtUtils {
     private static final String SECRET_KEY = "your-secret-key-should-be-very-long-and-secure"; // 实际使用时应该放入配置文件
 
     // 访问令牌有效期：30分钟
-    private static final long ACCESS_TOKEN_EXPIRATION = 30 * 60 * 1000;
+//    private static final long ACCESS_TOKEN_EXPIRATION = 30 * 60 * 1000;
+    // 10秒
+    private static final long ACCESS_TOKEN_EXPIRATION = 1000 * 10;
 
     // 刷新令牌有效期：7天
     private static final long REFRESH_TOKEN_EXPIRATION = 7 * 24 * 60 * 60 * 1000;

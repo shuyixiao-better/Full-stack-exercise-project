@@ -8,6 +8,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -78,11 +81,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-        ResponseData responseData = new ResponseData();
-        responseData.setCode(status);
-        responseData.setMessage(message);
+        // 使用与前端匹配的字段名称
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("code", status);
+        responseMap.put("msg", message);
 
         ObjectMapper objectMapper = new ObjectMapper();
-        response.getWriter().write(objectMapper.writeValueAsString(responseData));
+        response.getWriter().write(objectMapper.writeValueAsString(responseMap));
     }
 }
