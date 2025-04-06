@@ -98,23 +98,29 @@ function request(options) {
     return instance(options);
 }
 
+// 遍历HTTP方法数组，为request对象动态添加方法
 ["get", "post", "put", "delete"].forEach((item) => {
+    // 为每个方法创建快捷调用方式（函数式API）
     request[item] = (url, data, mock) => {
-        //参数重载
+        // ====== 参数重载逻辑 ======
+        // 场景1：未传递data参数时，初始化空对象
         if(data === undefined){
-            data = {};
+            data = {};  // 避免后续操作空指针异常
         }
 
+        // 场景2：当data参数为布尔类型时，实为mock标识
+        // 说明用户意图通过第二个参数设置mock标志
         if(typeof data == "boolean"){
-            mock = data;
-            data = {};
+            mock = data;  // 将mock参数前移赋值
+            data = {};    // 重置data为空对象
         }
 
+        // 最终调用基础request方法，合并配置项
         return request({
-            url,
-            data,
-            mock,
-            method: item,
+            url,      // 接口路径
+            data,     // 请求体/查询参数（根据方法类型自动适配）
+            mock,     // mock开关标识
+            method: item,  // 当前HTTP方法（来自数组遍历）
         });
     };
 });
