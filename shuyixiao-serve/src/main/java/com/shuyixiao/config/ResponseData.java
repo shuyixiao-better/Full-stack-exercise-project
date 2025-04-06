@@ -27,4 +27,6 @@ public class ResponseData {
     private Integer count;
 
     private String msg;
+
+    private String message;
 }

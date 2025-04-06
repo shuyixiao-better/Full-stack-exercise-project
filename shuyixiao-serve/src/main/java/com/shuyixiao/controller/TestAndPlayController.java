@@ -2,9 +2,7 @@ package shuyixiao.controller;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import org.springframework.web.bind.annotation.*;
-import shuyixiao.config.Log;
-import shuyixiao.config.Page;
-import shuyixiao.config.ResponseData;
+import shuyixiao.config.*;
 import shuyixiao.data.Applicant;
 import shuyixiao.data.AuditFlow;
 import shuyixiao.data.Menu;
@@ -13,6 +11,7 @@ import shuyixiao.data.UserData;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Copyright © 2025年 integration-projects-maven. All rights reserved.
@@ -28,11 +27,16 @@ public class TestAndPlayController {
     @PostMapping("/user/login")
     public ResponseData login() {
         System.out.println("/user/login");
-
+        // 颁发令牌，不应该用魔法值，用常量
+        String accessToken = JwtUtils.generatorToken("userName", "passWord", TokenConstants.ACCESS_TOKEN_TYPE);
+        String refreshToken = JwtUtils.generatorToken("userName", "passWord" ,TokenConstants.REFRESH_TOKEN_TYPE);
         // 创建返回的数据对象
         ResponseData responseData = new ResponseData();
         responseData.setCode(200);
-        responseData.setData(new UserData());
+        UserData userData = new UserData();
+        userData.setToken(accessToken);
+        userData.setRefreshToken(refreshToken);
+        responseData.setData(userData);
         return responseData;
     }
 
